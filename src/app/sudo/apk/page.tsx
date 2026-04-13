@@ -99,18 +99,16 @@ export default function ApkManagement() {
       <aside className="w-72 bg-[#195243] text-white hidden lg:flex flex-col">
         <div className="p-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">P</span>
-            </div>
-            <span className="font-bold text-2xl tracking-tight">Admin</span>
+            <img src="/icon.png" alt="Papyrus Icon" className="w-10 h-10 rounded-xl" />
+            <span className="font-bold text-2xl tracking-tight">Sudo</span>
           </div>
         </div>
         <nav className="flex-1 px-4 py-4 space-y-2">
-          <Link href="/admin/dashboard" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-medium">
+          <Link href="/sudo/dashboard" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-medium">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
             Dashboard
           </Link>
-          <Link href="/admin/apk" className="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-medium">
+          <Link href="/sudo/apk" className="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-medium">
             <Smartphone className="w-5 h-5" /> APK Management
           </Link>
         </nav>

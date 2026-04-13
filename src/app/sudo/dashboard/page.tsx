@@ -83,18 +83,16 @@ export default function AdminDashboard() {
       <aside className="w-72 bg-[#195243] text-white hidden lg:flex flex-col">
         <div className="p-8">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">P</span>
-            </div>
-            <span className="font-bold text-2xl tracking-tight">Admin</span>
+            <img src="/icon.png" alt="Papyrus Icon" className="w-10 h-10 rounded-xl" />
+            <span className="font-bold text-2xl tracking-tight">Sudo</span>
           </div>
         </div>
         
         <nav className="flex-1 px-4 py-4 space-y-2">
-          <Link href="/admin/dashboard" className="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-medium">
+          <Link href="/sudo/dashboard" className="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-medium">
             <LayoutDashboard className="w-5 h-5" /> Dashboard
           </Link>
-          <Link href="/admin/apk" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-medium transition-colors">
+          <Link href="/sudo/apk" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-medium transition-colors">
             <Smartphone className="w-5 h-5" /> APK Management
           </Link>
           <Link href="/" className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 rounded-xl font-medium transition-colors">
@@ -106,7 +104,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-4">
              <div className="w-10 h-10 bg-emerald-700 rounded-full flex items-center justify-center font-bold">A</div>
              <div>
-               <p className="text-sm font-bold">Admin User</p>
+               <p className="text-sm font-bold">Sudo User</p>
                <p className="text-[10px] text-emerald-300 uppercase tracking-widest">Main Controller</p>
              </div>
           </div>
@@ -120,7 +118,7 @@ export default function AdminDashboard() {
             <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Dashboard Overview</h1>
             <p className="text-slate-500">Real-time statistics for Papyrus platform</p>
           </div>
-          <Link href="/admin/apk" className="flex items-center gap-2 px-6 py-3 bg-[#195243] text-white rounded-xl font-bold hover:bg-[#154834] transition-all shadow-lg shadow-[#195243]/20">
+          <Link href="/sudo/apk" className="flex items-center gap-2 px-6 py-3 bg-[#195243] text-white rounded-xl font-bold hover:bg-[#154834] transition-all shadow-lg shadow-[#195243]/20">
             <Plus className="w-5 h-5" /> New Release
           </Link>
         </header>

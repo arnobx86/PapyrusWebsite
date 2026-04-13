@@ -16,10 +16,8 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#195243] rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">P</span>
-            </div>
-            <span className="font-bold text-2xl tracking-tight text-[#195243]">Papyrus</span>
+            <img src="/icon.png" alt="Papyrus Icon" className="w-10 h-10 rounded-xl object-cover shadow-sm" />
+            <img src="/logo_wordmark.png" alt="Papyrus" className="h-7 object-contain ml-1" />
           </div>
           <div className="hidden md:flex items-center gap-8">
             <Link href="#features" className="text-sm font-medium hover:text-[#195243] transition-colors">Features</Link>
@@ -45,7 +43,7 @@ export default function LandingPage() {
             <p className="text-xl text-slate-600 leading-relaxed mb-10 max-w-lg">
               The all-in-one business management app for small business owners. Track sales, purchases, stock, and transactions with ease.
             </p>
-            <div className="flex flex-col sm:row items-center gap-4">
+            <div className="flex flex-col items-start gap-4">
               <Link href="/download" className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-[#195243] text-white rounded-2xl font-bold text-lg hover:bg-[#154834] transition-all transform hover:-translate-y-0.5 shadow-xl shadow-[#195243]/30">
                 Download Latest APK <ArrowRight className="w-5 h-5" />
               </Link>
@@ -126,17 +124,14 @@ export default function LandingPage() {
       <footer className="py-12 px-6 border-t border-slate-200">
         <div className="max-w-7xl mx-auto flex flex-col md:row items-center justify-between gap-8">
           <div className="flex items-center gap-3 opacity-60">
-            <div className="w-8 h-8 bg-[#195243] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">P</span>
-            </div>
-            <span className="font-bold text-lg tracking-tight text-[#195243]">Papyrus</span>
+            <img src="/logo_wordmark.png" alt="Papyrus" className="h-6 object-contain grayscale" />
           </div>
           <div className="text-slate-400 text-sm">
             © 2026 Papyrus Digital. All rights reserved.
           </div>
           <div className="flex gap-6">
-            <Link href="/admin" className="text-sm font-medium text-slate-400 hover:text-[#195243]">Admin Panel</Link>
             <Link href="/" className="text-sm font-medium text-slate-400 hover:text-[#195243]">Terms</Link>
+            <Link href="/" className="text-sm font-medium text-slate-400 hover:text-[#195243]">Privacy</Link>
           </div>
         </div>
       </footer>

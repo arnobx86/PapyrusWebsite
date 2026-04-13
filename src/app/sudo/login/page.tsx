@@ -14,15 +14,15 @@ export default function AdminLogin() {
     
     // In a real app, use Supabase Auth. 
     // For this quick setup, we verify against the server-side env var via a simple API.
-    const res = await fetch('/api/admin/login', {
+    const res = await fetch('/api/sudo/login', {
       method: 'POST',
       body: JSON.stringify({ password }),
     });
 
     if (res.ok) {
-      router.push('/admin/dashboard');
+      router.push('/sudo/dashboard');
     } else {
-      setError('Invalid admin password');
+      setError('Invalid sudo password');
     }
   };
 
@@ -33,7 +33,7 @@ export default function AdminLogin() {
           <div className="w-16 h-16 bg-[#195243] rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-[#195243]/20">
             <ShieldCheck className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Papyrus Admin</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight">Papyrus Sudo</h1>
           <p className="text-slate-500 mt-2">Sign in to manage your app platform</p>
         </div>
 
