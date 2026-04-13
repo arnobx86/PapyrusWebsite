@@ -165,7 +165,7 @@ export default function ApkManagement() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="col-span-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal APK (Required)</label>
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal APK (Optional)</label>
                     <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, universal: e.target.files?.[0] || null})} />
                   </div>
                   <div>
