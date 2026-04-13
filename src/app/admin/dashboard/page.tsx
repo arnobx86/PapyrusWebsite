@@ -22,20 +22,18 @@ export default function AdminDashboard() {
     activeUsers: 0,
     totalVersions: 0
   });
+  const [recentActivity, setRecentActivity] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  if (typeof window !== 'undefined') {
-    // Basic client-side check if someone bypassed layout
-  }
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [users, shops, members, versions] = await Promise.wait([
+        const [users, shops, members, versions, activity] = await Promise.all([
           supabase.from('profiles').select('id', { count: 'exact', head: true }),
           supabase.from('shops').select('id', { count: 'exact', head: true }),
           supabase.from('shop_members').select('id', { count: 'exact', head: true }),
           supabase.from('app_versions').select('id', { count: 'exact', head: true }),
+          supabase.from('activity_logs').select('*').order('created_at', { ascending: false }).limit(5)
         ]);
 
         setStats({
@@ -44,6 +42,10 @@ export default function AdminDashboard() {
           activeUsers: members.count || 0,
           totalVersions: versions.count || 0
         });
+
+        if (activity.data) {
+          setRecentActivity(activity.data);
+        }
       } catch (e) {
         console.error('Error fetching stats:', e);
       } finally {
@@ -52,6 +54,28 @@ export default function AdminDashboard() {
     }
     fetchStats();
   }, []);
+
+  function _formatTimeAgo(date: Date) {
+    const diff = new Date().getTime() - date.getTime();
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days}d ago`;
+    if (hours > 0) return `${hours}h ago`;
+    if (minutes > 0) return `${minutes}m ago`;
+    return 'Just now';
+  }
+
+  function _getActivityIcon(action: string) {
+    const a = action.toLowerCase();
+    if (a.includes('sale')) return <ArrowUpRight className="w-4 h-4 text-emerald-500" />;
+    if (a.includes('purchase')) return <ArrowUpRight className="w-4 h-4 text-blue-500" />;
+    if (a.includes('shop')) return <Store className="w-4 h-4 text-amber-500" />;
+    if (a.includes('user')) return <Users className="w-4 h-4 text-purple-500" />;
+    return <Activity className="w-4 h-4 text-slate-400" />;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
@@ -118,27 +142,18 @@ export default function AdminDashboard() {
             </div>
             
             <div className="space-y-6">
-              <ActivityItem 
-                title="New Shop Created" 
-                user="Rahim Uddin" 
-                detail="Rahim Store - Dhaka" 
-                time="2 mins ago" 
-                icon={<Store className="w-4 h-4 text-emerald-500" />} 
-              />
-              <ActivityItem 
-                title="New Sale Recorded" 
-                user="Sattar General" 
-                detail="৳4,500 Sale - INV-S-44" 
-                time="15 mins ago" 
-                icon={<ArrowUpRight className="w-4 h-4 text-blue-500" />} 
-              />
-              <ActivityItem 
-                title="New User Registered" 
-                user="Karim Ali" 
-                detail="Verified via SMS" 
-                time="1 hour ago" 
-                icon={<Users className="w-4 h-4 text-purple-500" />} 
-              />
+              {recentActivity.length > 0 ? recentActivity.map((activity) => (
+                <ActivityItem 
+                  key={activity.id}
+                  title={activity.details?.message || activity.action} 
+                  user={activity.user_email?.split('@')[0] || 'System'} 
+                  detail={activity.details?.invoice_number || activity.entity_type || ''} 
+                  time={_formatTimeAgo(new Date(activity.created_at))} 
+                  icon={_getActivityIcon(activity.action)} 
+                />
+              )) : (
+                <p className="text-slate-400 text-sm italic">No recent activity found.</p>
+              )}
             </div>
           </div>
 
