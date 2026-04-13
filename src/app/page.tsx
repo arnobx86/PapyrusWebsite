@@ -1,12 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { 
-  BarChart3, 
   Package, 
   ArrowRight, 
   Download, 
   ShieldCheck, 
-  Smartphone,
   Wallet,
   Receipt
 } from 'lucide-react';

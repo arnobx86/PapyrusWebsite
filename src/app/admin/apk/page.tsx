@@ -8,11 +8,8 @@ import {
   Trash2, 
   Save, 
   Upload, 
-  CheckCircle2, 
-  XCircle,
   AlertTriangle,
-  History,
-  LayoutDashboard
+  History
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -80,8 +77,9 @@ export default function ApkManagement() {
       fetchVersions();
       setNewVersion({ version_number: '', update_type: 'soft', release_notes: '', is_latest: true });
       setApkFile(null);
-    } catch (e: any) {
-      alert('Error: ' + e.message);
+    } catch (e: unknown) {
+      const err = e as Error;
+      alert('Error: ' + err.message);
     } finally {
       setIsUploading(false);
     }
