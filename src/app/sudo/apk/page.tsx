@@ -30,12 +30,10 @@ export default function ApkManagement() {
   });
   
   const [apkFiles, setApkFiles] = useState<{
-    universal: File | null;
     arm: File | null;
     arm64: File | null;
     x86: File | null;
   }>({
-    universal: null,
     arm: null,
     arm64: null,
     x86: null
@@ -72,8 +70,8 @@ export default function ApkManagement() {
 
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault();
-    if (!apkFiles.universal && !apkFiles.arm && !apkFiles.arm64 && !apkFiles.x86 && !newVersion.universal_url_manual) {
-      alert('Please select at least one APK file or provide a Manual URL');
+    if (!apkFiles.arm && !apkFiles.arm64 && !apkFiles.x86 && !newVersion.universal_url_manual) {
+      alert('Please provide a Universal URL or upload at least one architecture APK');
       return;
     }
 
@@ -84,7 +82,6 @@ export default function ApkManagement() {
       let arm64Url = '';
       let x86Url = '';
 
-      if (apkFiles.universal) universalUrl = await uploadFile(apkFiles.universal, 'universal');
       if (apkFiles.arm) armUrl = await uploadFile(apkFiles.arm, 'arm');
       if (apkFiles.arm64) arm64Url = await uploadFile(apkFiles.arm64, 'arm64');
       if (apkFiles.x86) x86Url = await uploadFile(apkFiles.x86, 'x86');
@@ -105,7 +102,7 @@ export default function ApkManagement() {
       alert('Version published successfully!');
       fetchVersions();
       setNewVersion({ version_number: '', update_type: 'soft', release_notes: '', is_latest: true, universal_url_manual: '' });
-      setApkFiles({ universal: null, arm: null, arm64: null, x86: null });
+      setApkFiles({ arm: null, arm64: null, x86: null });
     } catch (e: any) {
       alert('Error: ' + e.message);
     } finally {
@@ -167,23 +164,23 @@ export default function ApkManagement() {
 
                 <div className="space-y-4 border-l-2 border-emerald-100 pl-4 py-2">
                   <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal Direct Link (GitHub/External)</label>
-                    <div className="relative">
-                      <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal Direct Link (GitHub)</label>
+                    <div className="relative text-emerald-900">
+                      <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5" />
                       <input 
                         type="url" 
                         placeholder="https://github.com/.../app-release.apk"
-                        className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                        className="w-full pl-9 pr-4 py-2 bg-emerald-50 border border-emerald-100 rounded-xl text-xs outline-none focus:border-[#195243]"
                         value={newVersion.universal_url_manual}
                         onChange={(e) => setNewVersion({...newVersion, universal_url_manual: e.target.value})}
                       />
                     </div>
+                    <p className="mt-1 text-[9px] text-slate-400">Recommended for Files {">"} 50MB</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
-                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal APK (Upload)</label>
-                      <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, universal: e.target.files?.[0] || null})} />
+                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Optimized Uploads (Supabase)</label>
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ARM (v7a)</label>
@@ -216,7 +213,7 @@ export default function ApkManagement() {
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Release Notes</label>
                   <textarea 
                     rows={2}
-                    placeholder="What's new?"
+                    placeholder="Changelog..."
                     className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm"
                     value={newVersion.release_notes}
                     onChange={(e) => setNewVersion({...newVersion, release_notes: e.target.value})}
