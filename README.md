@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 Papyrus Web Hub
 
-## Getting Started
+Papyrus Web Hub is the central command center for the Papyrus ecosystem. It serves as both the public-facing landing page for the platform and a secure, multi-architecture distribution hub for the Papyrus mobile application.
 
-First, run the development server:
+![Papyrus Hero](public/app_screenshot.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🌐 Public Landing Page
+- **Premium Design**: Built with Next.js 15, Tailwind CSS, and Framer Motion for a state-of-the-art landing experience.
+- **Conversion Focused**: Clear CTA for downloading the latest APK with architecture detection.
+- **Brand Aligned**: Seamlessly integrates official Papyrus iconography and wordmarks.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔐 Sudo Administrative Suite
+A secure, custom-built dashboard accessible via the `/sudo` namespace.
+- **Live Activity Monitoring**: Real-time platform growth tracking (Total Shops, Members, and Activity).
+- **Multi-Architecture APK Management**: 
+    - Support for Optimized builds (ARMv7, ARM64, x86_64).
+    - Remote binary hosting (GitHub/External) for Universal APKs over 50MB.
+    - Version lifecycle management (Soft/Force updates).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🛠️ Intelligent Distribution API
+- **Auto-Detection**: Dedicated API endpoint that identifies client device architecture and serves the most optimized binary.
+- **Supabase Powered**: High-performance backend using PostgreSQL and Supabase Storage.
 
-## Learn More
+## 💻 Tech Stack
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Backend**: [Supabase](https://supabase.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Deployment**: [Netlify](https://www.netlify.com/)
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Setup & Local Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/arnobx86/PapyrusWebsite.git
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Configure Environment Variables**:
+   Create a `.env.local` file:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+   ADMIN_PASSWORD=your_secure_password
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Deployment
+
+This project is optimized for **Netlify**.
+- **Build Command**: `npm run build`
+- **Publish Directory**: `.next`
+- **Node Version**: 20+
+
+## 📄 License
+Copyright © 2026 Papyrus Team. All rights reserved.
