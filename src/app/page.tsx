@@ -51,23 +51,17 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="relative">
-            <div className="w-full h-[600px] bg-gradient-to-br from-[#195243] to-emerald-800 rounded-[40px] shadow-2xl relative overflow-hidden group">
+            <div className="w-full h-[650px] bg-gradient-to-br from-[#195243] to-emerald-800 rounded-[40px] shadow-2xl relative overflow-hidden group">
                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80')] bg-cover bg-center mix-blend-overlay opacity-20 transition-transform duration-700 group-hover:scale-110" />
-               <div className="absolute inset-0 flex items-center justify-center p-12">
-                 <div className="w-72 h-[560px] bg-slate-900 rounded-[48px] border-[8px] border-slate-800 shadow-2xl flex flex-col items-center overflow-hidden">
-                    <div className="w-full h-8 bg-slate-800 flex justify-center items-center pt-2">
-                      <div className="w-16 h-1 bg-slate-700 rounded-full" />
-                    </div>
-                    <div className="flex-1 w-full bg-[#195243] p-6 space-y-4">
-                       <div className="h-4 w-2/3 bg-white/20 rounded" />
-                       <div className="h-24 w-full bg-white/10 rounded-xl" />
-                       <div className="grid grid-cols-2 gap-2">
-                         <div className="h-16 bg-white/10 rounded-lg" />
-                         <div className="h-16 bg-white/10 rounded-lg" />
-                       </div>
-                       <div className="h-40 w-full bg-white/10 rounded-xl" />
-                    </div>
-                 </div>
+               <div className="absolute inset-0 flex items-center justify-center p-8">
+                  <div className="w-[300px] h-[600px] bg-slate-900 rounded-[44px] border-[10px] border-slate-800 shadow-2xl overflow-hidden relative">
+                    <img 
+                      src="/app_screenshot.png" 
+                      alt="Papyrus App Screenshot" 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-2xl" />
+                  </div>
                </div>
             </div>
           </div>
