@@ -10,7 +10,8 @@ import {
   Upload, 
   AlertTriangle,
   History,
-  Cpu
+  Cpu,
+  Link as LinkIcon
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -24,7 +25,8 @@ export default function ApkManagement() {
     version_number: '',
     update_type: 'soft',
     release_notes: '',
-    is_latest: true
+    is_latest: true,
+    universal_url_manual: '' // For GitHub links
   });
   
   const [apkFiles, setApkFiles] = useState<{
@@ -70,14 +72,14 @@ export default function ApkManagement() {
 
   async function handleUpload(e: React.FormEvent) {
     e.preventDefault();
-    if (!apkFiles.universal && !apkFiles.arm && !apkFiles.arm64 && !apkFiles.x86) {
-      alert('Please select at least one APK file');
+    if (!apkFiles.universal && !apkFiles.arm && !apkFiles.arm64 && !apkFiles.x86 && !newVersion.universal_url_manual) {
+      alert('Please select at least one APK file or provide a Manual URL');
       return;
     }
 
     setIsUploading(true);
     try {
-      let universalUrl = '';
+      let universalUrl = newVersion.universal_url_manual;
       let armUrl = '';
       let arm64Url = '';
       let x86Url = '';
@@ -89,7 +91,7 @@ export default function ApkManagement() {
 
       const { error: dbError } = await supabase.from('app_versions').insert({
         version_number: newVersion.version_number,
-        apk_url: universalUrl || arm64Url || armUrl || x86Url, // Fallback
+        apk_url: universalUrl || arm64Url || armUrl || x86Url, 
         apk_url_arm: armUrl,
         apk_url_arm64: arm64Url,
         apk_url_x86: x86Url,
@@ -102,7 +104,7 @@ export default function ApkManagement() {
 
       alert('Version published successfully!');
       fetchVersions();
-      setNewVersion({ version_number: '', update_type: 'soft', release_notes: '', is_latest: true });
+      setNewVersion({ version_number: '', update_type: 'soft', release_notes: '', is_latest: true, universal_url_manual: '' });
       setApkFiles({ universal: null, arm: null, arm64: null, x86: null });
     } catch (e: any) {
       alert('Error: ' + e.message);
@@ -145,8 +147,8 @@ export default function ApkManagement() {
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
-            <form onSubmit={handleUpload} className="bg-white p-8 rounded-[32px] border border-slate-200 shadow-sm sticky top-8">
-              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <form onSubmit={handleUpload} className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm sticky top-8">
+              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
                 <Plus className="w-5 h-5 text-[#195243]" /> New Release
               </h3>
 
@@ -163,18 +165,38 @@ export default function ApkManagement() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="col-span-2">
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal APK (Optional)</label>
-                    <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, universal: e.target.files?.[0] || null})} />
-                  </div>
+                <div className="space-y-4 border-l-2 border-emerald-100 pl-4 py-2">
                   <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ARM (v7a)</label>
-                    <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, arm: e.target.files?.[0] || null})} />
+                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal Direct Link (GitHub/External)</label>
+                    <div className="relative">
+                      <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                      <input 
+                        type="url" 
+                        placeholder="https://github.com/.../app-release.apk"
+                        className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none"
+                        value={newVersion.universal_url_manual}
+                        onChange={(e) => setNewVersion({...newVersion, universal_url_manual: e.target.value})}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ARM64 (v8a)</label>
-                    <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, arm64: e.target.files?.[0] || null})} />
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2">
+                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Universal APK (Upload)</label>
+                      <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, universal: e.target.files?.[0] || null})} />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ARM (v7a)</label>
+                      <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, arm: e.target.files?.[0] || null})} />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">ARM64 (v8a)</label>
+                      <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, arm64: e.target.files?.[0] || null})} />
+                    </div>
+                    <div className="col-span-2">
+                       <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">x86_64</label>
+                       <input type="file" accept=".apk" className="text-xs w-full" onChange={(e) => setApkFiles({...apkFiles, x86: e.target.files?.[0] || null})} />
+                    </div>
                   </div>
                 </div>
 
@@ -193,12 +215,22 @@ export default function ApkManagement() {
                 <div>
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Release Notes</label>
                   <textarea 
-                    rows={3}
-                    placeholder="Changelog..."
+                    rows={2}
+                    placeholder="What's new?"
                     className="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none text-sm"
                     value={newVersion.release_notes}
                     onChange={(e) => setNewVersion({...newVersion, release_notes: e.target.value})}
                   />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="checkbox" 
+                    id="is_latest" 
+                    checked={newVersion.is_latest}
+                    onChange={(e) => setNewVersion({...newVersion, is_latest: e.target.checked})}
+                  />
+                  <label htmlFor="is_latest" className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Set as latest</label>
                 </div>
 
                 <button 
@@ -229,10 +261,10 @@ export default function ApkManagement() {
                   </div>
                   
                   <div className="flex flex-wrap gap-2">
-                    {v.apk_url && <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">Universal</span>}
-                    {v.apk_url_arm && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-xs font-medium flex items-center gap-1"><Cpu className="w-3 h-3" /> ARMv7</span>}
-                    {v.apk_url_arm64 && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-xs font-medium flex items-center gap-1"><Cpu className="w-3 h-3" /> ARM64</span>}
-                    {v.apk_url_x86 && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-xs font-medium flex items-center gap-1"><Cpu className="w-3 h-3" /> x86_64</span>}
+                    {v.apk_url && <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-bold uppercase flex items-center gap-1"><LinkIcon className="w-2 h-2" /> Universal</span>}
+                    {v.apk_url_arm && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-[10px] font-bold uppercase flex items-center gap-1"><Cpu className="w-2 h-2" /> ARMv7</span>}
+                    {v.apk_url_arm64 && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-[10px] font-bold uppercase flex items-center gap-1"><Cpu className="w-2 h-2" /> ARM64</span>}
+                    {v.apk_url_x86 && <span className="px-3 py-1 bg-emerald-50 text-[#195243] rounded-full text-[10px] font-bold uppercase flex items-center gap-1"><Cpu className="w-2 h-2" /> x86_64</span>}
                   </div>
                </div>
              ))}
